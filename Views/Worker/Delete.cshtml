@@ -1,0 +1,56 @@
+﻿@model MvcTest.Models.Worker
+
+@{
+    ViewData["Title"] = "Вы действительно хотите удалить данного сотрудника?";
+}
+
+<div class="title row">
+    <div class="col-8">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+    <div class="col-4">
+        <a asp-action="Index" type="button" class="close" aria-label="Close" style="font-size: 3rem;">
+            <span aria-hidden="true">&times;</span>
+        </a>
+    </div>
+</div>
+<hr />
+
+<form action="Delete" method="post">
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="text-center">
+    <img src ="~/images/@Model.PathPhoto"      
+             height="180"  width="180"
+             asp-append-version="true" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Имя</label>
+        <input type="text" class="form-control" asp-for="Name" readonly/>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Фамилия</label>
+        <input type="text" class="form-control" asp-for="Surname" readonly />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Отчество</label>
+        <input type="text" class="form-control" asp-for="Patronymic" readonly />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Телефон</label>
+        <input type="text" class="form-control" asp-for="Phone"  readonly/>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Отдел</label>
+        <input type="text" class="form-control" asp-for="Department.Title" readonly />
+    </div>
+
+    <div class="d-grid">
+        <button type="submit" class="bnt btn-danger btn-lg btn-block">Удалить</button>
+    </div>
+</form>

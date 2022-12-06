@@ -1,0 +1,125 @@
+﻿@model MvcTest.Models.PageInfo
+
+
+
+@{
+    ViewData["Title"] = "Справочник сотрудников";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+
+
+
+
+<form asp-action="Index" asp-controller="Worker" method="get">
+
+    <div class="title row">
+        <div class="col-4">
+            <h3>@ViewData["Title"]</h3>
+        </div>
+
+        <div class="row col-6">
+            <div class="col-2">
+                <select class="form-select" name="searchBy" id="SearchBy" style="height: 80%">
+                    <option value="FullName">ФИО</option>
+                    <option value="Phone">Телефон</option>
+                </select>
+            </div>
+            <div class="col-10">
+                <input type="text" class="form-control" name="searchValue" placeholder="поиск" id="SearchValue" style="margin-left: 5%" />
+            </div>
+
+        </div>
+
+        <div class="col-2">
+            <a asp-controller='Worker' asp-action="Create" class="btn btn-success btn-lg float-right">
+                Добавить
+            </a>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(successMessage))
+    {
+        <div class="alert alert-success">
+            <strong>Успешно! </strong>@successMessage
+        </div>
+    }
+    else if (!string.IsNullOrWhiteSpace(errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>Ошибка! </strong>@errorMessage
+        </div>
+    }
+
+
+
+    <table class="table">
+
+        <thead style="border-top: none">
+            <tr>
+                <th style="width: 10%" scope="col">Фото</th>
+                <th style="width: 30%" scope="col">ФИО</th>
+                <th style="width: 20%" scope="col">Телефон</th>
+                <th style="width: 20%" scope="col">Отдел</th>
+                <th style="width: 20%" class="action"></th>
+            </tr>
+        </thead>
+
+        <tbody id="Data">
+            @if (Model != null && Model.Workers.Any())
+            {
+                @foreach (var worker in Model.Workers)
+                {
+                    <tr>
+                        <td>
+                            <img src ="~/images/@worker.PathPhoto"    
+                                                      class="rounded-circle"    
+                                                      height="60"  width="60"    
+                                                      asp-append-version="true"   />
+                        </td>
+                        <td>@worker.FullName</td>
+                        <td>@worker.Phone</td>
+                        <td>@worker.Department.Title</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-controller='Worker' asp-action="Edit" asp-route-id="@worker.Id" class="btn btn-primary">
+                                    Изменить
+                                </a>
+                                <a asp-controller='Worker' asp-action="Delete" asp-route-id="@worker.Id" class="btn btn-danger">
+                                    Удалить
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">
+                        <div class="align-content-center">
+                            <h2> Сотрудники не найдены. </h2>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+                <ul class ="pagination" id="Pagination">
+                    @for (int i = 1; i <= Model.PageCount; i++)
+                    {
+                        <li class="page-item">
+
+                            @if (i != Model.CurrentPageIndex)
+                            {
+                            <a class="page-link" href="#">@i</a>
+                            }
+                            else
+                            {
+                                <a class="page-link">@i</a>
+                            }
+                        </li>
+                    }
+                </ul>
+        </tbody>
+    </table>
+</form>
