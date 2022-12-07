@@ -7,7 +7,6 @@ $(document).ready(function () {
         var SearchBy = $("#SearchBy").val();
         var SearchValue = $("#SearchValue").val();
         var CurrentPageIndex = $("#hfCurrentPageIndex").val() ? $("#hfCurrentPageIndex").val() : "1";
-
         $.ajax({
             type: "get",
             url: "/?currentPageIndex=" + CurrentPageIndex + "&SearchBy=" + SearchBy + "&SearchValue=" + SearchValue,
@@ -25,10 +24,10 @@ $(document).ready(function () {
 
 
 $(document).ready(function () {
-    $(document).on("click", ".page-link", function () {
+    $(document).on("click", ".page-link", function (e) {
         var SearchBy = $("#SearchBy").val();
         var SearchValue = $("#SearchValue").val();
-        var NextPageIndex = $(this).text();
+        var NextPageIndex = e.target.text;
 
         $.ajax({
             type: "get",
