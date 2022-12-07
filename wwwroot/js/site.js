@@ -15,7 +15,8 @@ $(document).ready(function () {
             success: function (response) {
                 $('#Data').html(jQuery(response).find('#Data').html());
                 $('#Pagination').html(jQuery(response).find('#Pagination').html());
-                console.log(this.url);
+                history.pushState('', '', this.url);
+
             }
         })
     }
@@ -28,12 +29,6 @@ $(document).ready(function () {
         var SearchBy = $("#SearchBy").val();
         var SearchValue = $("#SearchValue").val();
         var NextPageIndex = $(this).text();
-        var url;
-        if (SearchValue)
-            url = "/?currentPageIndex=" + NextPageIndex + "&SearchBy=" + SearchBy + "&SearchValue=" + SearchValue;
-        else
-            url = "/?currentPageIndex=" + NextPageIndex
-        console.log(url)
 
         $.ajax({
             type: "get",
@@ -42,6 +37,7 @@ $(document).ready(function () {
             success: function (response) {
                 $('#Data').html(jQuery(response).find('#Data').html());
                 $('#Pagination').html(jQuery(response).find('#Pagination').html());
+                history.pushState('', '', this.url);
             }
         })
     }
